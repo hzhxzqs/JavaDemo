@@ -1,0 +1,25 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class TargetClass <<目标类>> {
+    + doSomething() : void
+}
+
+class ProxyMethodInterceptor <<方法拦截器>> {
+    + intercept(Object, Method, Object[], MethodProxy) : Object
+}
+
+class Enhancer <<增强器>>
+
+class ProxyClass <<代理类>>
+
+class Main
+
+Enhancer <. Main : 1. create
+Enhancer <. Main : 2. set TargetClass & ProxyMethodInterceptor
+ProxyClass <.. Enhancer : 3. create
+ProxyClass <.. Main : 4. call doSomething()
+ProxyMethodInterceptor <.. ProxyClass : 5. call intercept()
+TargetClass <.. ProxyMethodInterceptor : 6. call doSomething()
+
+@enduml

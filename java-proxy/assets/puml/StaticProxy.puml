@@ -1,0 +1,29 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface ProxyInterface <<代理接口>> {
+    + doSomething() : void
+}
+
+class TargetClass <<目标类>> {
+    + doSomething() : void
+}
+
+class ProxyClass <<代理类>> {
+    - target : ProxyInterface
+    == constructor ==
+    + ProxyClass(ProxyInterface)
+    -- method --
+    + doSomething() : void
+}
+
+class Main
+
+ProxyInterface <|. TargetClass
+ProxyInterface <|. ProxyClass
+TargetClass <.. Main : 1. create
+ProxyClass <. Main : 2. create & set target
+ProxyClass <. Main : 3. call doSomething()
+TargetClass <.. ProxyClass : 4. call doSomething()
+
+@enduml

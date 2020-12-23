@@ -1,0 +1,33 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface ProxyInterface <<代理接口>> {
+    + doSomething() : void
+}
+
+class TargetClass <<目标类>> {
+    + doSomething() : void
+}
+
+class ProxyInvocationHandler <<调用处理器>> {
+    - target : Object
+    == constructor ==
+    + ProxyInvocationHandler(Object)
+    -- method --
+    + invoke(Object, Method, Object[]) : Object
+}
+
+class ProxyClass <<代理类>>
+
+class Main
+
+
+ProxyInterface <|.. TargetClass
+TargetClass <.. Main : 1. create
+ProxyInvocationHandler <.. Main : 2. create & set target
+ProxyClass <. Main : 3. call Proxy.newProxyInstance() & create
+ProxyClass <. Main : 4. call doSomething()
+ProxyInvocationHandler <.. ProxyClass : 5. call invoke()
+TargetClass <.. ProxyInvocationHandler : 6. call doSomething()
+
+@enduml
